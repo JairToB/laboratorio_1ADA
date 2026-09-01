@@ -1,5 +1,6 @@
 #include<iostream>
 #include <random>
+#include <algorithm>
 
 int cubicMaxSub(int* a, int n){
     int maxSub = a[0];
@@ -31,6 +32,16 @@ int quadraticMaxSub(int* a, int n){
     return maxSub;
 }
 
+int kadane(int* a, int n){
+    int here = a[0];
+    int global = a[0];
+    for (int i = 1; i < n; ++i){
+        here = std::max(a[i], here + a[i]);
+        global = std::max(global, here);
+    }
+    return global;
+}
+
 int generateRandomNumbers(int minimo, int maximo){
     static std::random_device rd;
     static std::mt19937 gen(rd());
@@ -51,8 +62,10 @@ int main(){
     }
     int sumMax_firstW = cubicMaxSub(a, n);
     int sumMax_secondW = quadraticMaxSub(a, n);
+    int sumMax_thirdW = kadane(a, n);
     std::cout << "Suma Maxima: " << sumMax_firstW << std::endl;
     std::cout << "Suma Maxima: " << sumMax_secondW << std::endl;
+    std::cout << "Suma Maxima: " << sumMax_thirdW << std::endl;
 
     return 0;
 }
