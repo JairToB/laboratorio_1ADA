@@ -3,19 +3,34 @@
 
 int cubicMaxSub(int* a, int n){
     int maxSub = a[0];
-    for(int i = 0; i < n; ++i){
-        for(int j = i; j < n; ++j){
+    for (int i = 0; i < n; ++i){
+        for (int j = i; j < n; ++j){
             int sum = 0;
-            for(int k = i; k < j; ++k){
+            for (int k = i; k < j; ++k){
                 sum += a[k];
             }
-            if(sum > maxSub){
+            if (sum > maxSub){
                 maxSub = sum;
             }
         }
     }
     return maxSub;
 }
+
+int quadraticMaxSub(int* a, int n){
+    int maxSub = a[0];
+    for (int i = 0; i < n; ++i){
+        int sum = 0;
+        for (int j = i; j < n; ++j){
+            sum += a[j];
+            if (sum > maxSub){
+                maxSub = sum;
+            }
+        }
+    }
+    return maxSub;
+}
+
 int generateRandomNumbers(int minimo, int maximo){
     static std::random_device rd;
     static std::mt19937 gen(rd());
@@ -34,8 +49,10 @@ int main(){
         a[i] = x;
         std::cout << a[i] << std::endl;
     }
-    int sumMax = cubicMaxSub(a, n);
-    std::cout << "Suma Maxima: " << sumMax << std::endl;
+    int sumMax_firstW = cubicMaxSub(a, n);
+    int sumMax_secondW = quadraticMaxSub(a, n);
+    std::cout << "Suma Maxima: " << sumMax_firstW << std::endl;
+    std::cout << "Suma Maxima: " << sumMax_secondW << std::endl;
 
     return 0;
 }
