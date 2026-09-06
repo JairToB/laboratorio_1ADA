@@ -1,13 +1,14 @@
 #include<iostream>
 #include <random>
 #include <algorithm>
+#include <chrono>
 
 int cubicMaxSub(int* a, int n){
     int maxSub = a[0];
     for (int i = 0; i < n; ++i){
         for (int j = i; j < n; ++j){
             int sum = 0;
-            for (int k = i; k < j; ++k){
+            for (int k = i; k <= j; ++k){
                 sum += a[k];
             }
             if (sum > maxSub){
@@ -50,6 +51,15 @@ int generateRandomNumbers(int minimo, int maximo){
 
     return dist(gen);
 }
+
+double measureTime(int (*algo)(int*, int), int* a, int n, int& result) {
+    auto start = std::chrono::high_resolution_clock::now();
+    result = algo(a, n);
+    auto end = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double, std::micro> elapsed = end - start;
+    return elapsed.count();
+}
+
 int main(){
     int n = 10;
     int a[n];
@@ -63,9 +73,16 @@ int main(){
     int sumMax_firstW = cubicMaxSub(a, n);
     int sumMax_secondW = quadraticMaxSub(a, n);
     int sumMax_thirdW = kadane(a, n);
-    std::cout << "Suma Maxima: " << sumMax_firstW << std::endl;
-    std::cout << "Suma Maxima: " << sumMax_secondW << std::endl;
-    std::cout << "Suma Maxima: " << sumMax_thirdW << std::endl;
+    std::cout << "Suma Cubica Maxima: " << sumMax_firstW << std::endl;
+    std::cout << "Suma Cuadratica Maxima: " << sumMax_secondW << std::endl;
+    std::cout << "Suma Kadane Maxima: " << sumMax_thirdW << std::endl;
 
+    double timeCubic = measureTime(cubicMaxSub, a, n, sumMax_firstW);
+    double timeQuadratic = measureTime(quadraticMaxSub, a, n, sumMax_secondW);
+    double timeKadane = measureTime(kadane, a, n, sumMax_thirdW);
+
+    std::cout << "Tiempo Cubico = " << timeCubic << " us\n";
+    std::cout << "Tiempo Cuadratico = " << timeQuadratic << " us\n";
+    std::cout << "Tiempo Kadane = " << timeKadane << " us\n";
     return 0;
 }
