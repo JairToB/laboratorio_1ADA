@@ -65,24 +65,27 @@ int main(){
     int a[n];
     int min = -100;
     int max = 100;
-    for (int i = 0; i < n; ++i){
-        int x = generateRandomNumbers(min, max);
-        a[i] = x;
-        std::cout << a[i] << std::endl;
+    for (int i = 0; i < 100; ++i){
+        for (int j = 0; j < n; ++j){
+            int x = generateRandomNumbers(min, max);
+            a[j] = x;
+            std::cout << a[j] << std::endl;
+        }
+        int sumMax_firstW = cubicMaxSub(a, n);
+        int sumMax_secondW = quadraticMaxSub(a, n);
+        int sumMax_thirdW = kadane(a, n);
+        std::cout << "Suma Cubica Maxima: " << sumMax_firstW << std::endl;
+        std::cout << "Suma Cuadratica Maxima: " << sumMax_secondW << std::endl;
+        std::cout << "Suma Kadane Maxima: " << sumMax_thirdW << std::endl;
+
+        double timeCubic = measureTime(cubicMaxSub, a, n, sumMax_firstW);
+        double timeQuadratic = measureTime(quadraticMaxSub, a, n, sumMax_secondW);
+        double timeKadane = measureTime(kadane, a, n, sumMax_thirdW);
+
+        std::cout << "Tiempo Cubico = " << timeCubic << " us\n";
+        std::cout << "Tiempo Cuadratico = " << timeQuadratic << " us\n";
+        std::cout << "Tiempo Kadane = " << timeKadane << " us\n";
+        std::cout << std::endl;
     }
-    int sumMax_firstW = cubicMaxSub(a, n);
-    int sumMax_secondW = quadraticMaxSub(a, n);
-    int sumMax_thirdW = kadane(a, n);
-    std::cout << "Suma Cubica Maxima: " << sumMax_firstW << std::endl;
-    std::cout << "Suma Cuadratica Maxima: " << sumMax_secondW << std::endl;
-    std::cout << "Suma Kadane Maxima: " << sumMax_thirdW << std::endl;
-
-    double timeCubic = measureTime(cubicMaxSub, a, n, sumMax_firstW);
-    double timeQuadratic = measureTime(quadraticMaxSub, a, n, sumMax_secondW);
-    double timeKadane = measureTime(kadane, a, n, sumMax_thirdW);
-
-    std::cout << "Tiempo Cubico = " << timeCubic << " us\n";
-    std::cout << "Tiempo Cuadratico = " << timeQuadratic << " us\n";
-    std::cout << "Tiempo Kadane = " << timeKadane << " us\n";
     return 0;
 }
